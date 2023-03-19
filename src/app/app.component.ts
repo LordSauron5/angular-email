@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from "./auth/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'emailclient';
+  signedin$: BehaviorSubject<boolean>
+
+  constructor(private authService: AuthService) {
+    this.signedin$ = this.authService.signedin$;
+  }
+
+  ngOnInit() {
+    this.authService.checkAuth().subscribe(() => { });
+  }
 }
